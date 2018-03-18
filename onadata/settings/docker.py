@@ -22,12 +22,13 @@ from onadata.settings.common import *  # noqa
 # # # now override the settings which came from staging # # # #
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'onadata',
-        'USER': 'onadata',
-        'PASSWORD': 'onadata',
-        'HOST': 'db',
-        'PORT': 5432
+        'ENGINE': os.environ.get('DEFAULT_DB_ENGINE',
+                                 'django.contrib.gis.db.backends.postgis'),
+        'NAME': os.environ.get('DEFAULT_DB_NAME', 'onadata'),
+        'USER': os.environ.get('DEFAULT_DB_USER', 'onadata'),
+        'PASSWORD': os.environ.get('DEFAULT_DB_PASS', 'onadata'),
+        'HOST': os.environ.get('DEFAULT_DB_HOST', 'db'),
+        'PORT': os.environ.get('DEFAULT_DB_PORT', 5432),
     }
 }
 
@@ -37,8 +38,7 @@ SLAVE_DATABASES = []
 # Make a unique unique key just for testing, and don't share it with anybody.
 SECRET_KEY = '~&nN9d`bxmJL2[$HhYE9qAk=+4P:cf3b'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ['127.0.0.1']
 
 DEBUG = True
@@ -52,7 +52,7 @@ if len(sys.argv) >= 2 and (sys.argv[1] == "test" or sys.argv[1] == "test_all"):
 else:
     TESTING_MODE = False
 
-BROKER_BACKEND = 'amqp:guest:@queue:5672'
+BROKER_BACKEND = os.environ.get('BROKER_URL', 'amqp:guest:@queue:5672')
 BROKER_TRANSPORT = 'librabbitmq'
 CELERY_ALWAYS_EAGER = True
 
