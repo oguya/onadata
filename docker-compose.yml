@@ -37,6 +37,7 @@ services:
       - DEV_LOGIN_PASSWORD=admin
       - DJANGO_SETTINGS_MODULE=onadata.settings.docker
       - BROKER_URL=amqp://guest:guest@rabbitmq:5672//
+      - PYTHONUNBUFFERED=1
     volumes:
       - .:/srv/onadata
     depends_on:

@@ -11,6 +11,8 @@ python manage.py migrate --noinput
 python manage.py collectstatic --noinput
 
 # create superuser
-python manage.py init_super_user --settings=$DJANGO_SETTINGS_MODULE
+#python manage.py createsuperuser --settings=$DJANGO_SETTINGS_MODULE
+echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@localhost.local').delete(); User.objects.create_superuser('admin', 'admin@localhost.local', 'admin')" | python manage.py shell
+
 
 python manage.py runserver 0.0.0.0:8000
