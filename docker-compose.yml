@@ -1,19 +1,49 @@
 version: '3'
-
 services:
   db:
-    build: ./docker/postgis
-    image: postgis:9.6
-  queue:
-    image: rabbitmq
-  web:
-    build: .
-    image: onadata:master
+    image: kartoza/postgis:9.6-2.4
+    container_name: "postgis"
+    environment:
+      - POSTGRES_DB=onadata
+      - POSTGRES_PASSWORD=onadata
+      - POSTGRES_USER=onadata
+    ports:
+      - 5432
+
+  rabbitmq:
+    image: gonkulatorlabs/rabbitmq:3.6.1
+    ports:
+      - 15672
+      - 5671
+      - 5672
+
+## create base image & build app from it
+##  - web_app create Superuser
+##  - wait-for-it db **
+##  -
+
+  onadata:
+    build:
+      context: .
+    command: bash -c "./docker/wait-for-it.sh db:5432 && ./docker/docker-entrypoint.sh"
+    environment:
+      - DEFAULT_DB_ENGINE=django.contrib.gis.db.backends.postgis
+      - DEFAULT_DB_HOST=db
+      - DEFAULT_DB_PORT=5432
+      - DEFAULT_DB_NAME=onadata
+      - DEFAULT_DB_USER=onadata
+      - DEFAULT_DB_PASS=onadata
+      - DEV_LOGIN_USERNAME=admin
+      - DEV_LOGIN_PASSWORD=admin
+      - DJANGO_SETTINGS_MODULE=onadata.settings.docker
+      - BROKER_URL=amqp://guest:guest@rabbitmq:5672//
     volumes:
       - .:/srv/onadata
-    ports:
-      - "8000:8000"
     depends_on:
       - db
-      - queue
-
+      - rabbitmq
+    links:
+      - db
+      - rabbitmq
+    ports:
+      - 8000:8000
