@@ -1,8 +1,8 @@
 FROM ubuntu:16.04
 FROM oguya/onadata:base_image
 
-RUN virtualenv /srv/.virtualenv
-ADD . /srv/onadata/
+#RUN virtualenv /srv/.virtualenv
+#ADD . /srv/onadata/
 
 RUN rm -rf /var/lib/apt/lists/* \
   && find . -name '*.pyc' -type f -delete

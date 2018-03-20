@@ -17,9 +17,11 @@ COPY requirements /srv/onadata/requirements/
 
 WORKDIR /srv/onadata
 
-RUN virtualenv /srv/.virtualenv
-RUN . /srv/.virtualenv/bin/activate; \
-    pip install pip --upgrade && pip install -r requirements/base.pip
+#RUN virtualenv /srv/.virtualenv
+#RUN . /srv/.virtualenv/bin/activate; \
+RUN python2 -m pip install pip --upgrade
+RUN python2 -m pip install -r requirements/base.pip
+#RUN python2 -m pip install -r requirements/dev.pip
 
 ONBUILD COPY . /srv/onadata/
 
