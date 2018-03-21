@@ -1,0 +1,4 @@
+FROM nginx:latest
+RUN mkdir /usr/share/nginx/html/static
+ADD onadata/static /usr/share/nginx/html/static
+ONBUILD ADD docker/nginx/*.conf /etc/nginx/conf.d/
