@@ -1,5 +1,19 @@
 version: '3'
 services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/nginx_dockerfile
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d:ro
+    command: nginx-debug -g 'daemon off;'
+    depends_on:
+      - onadata
+    links:
+      - onadata
+    ports:
+      - 80:80
+
   db:
     image: kartoza/postgis:9.6-2.4
     container_name: "postgis"
@@ -8,7 +22,7 @@ services:
       - POSTGRES_PASSWORD=onadata
       - POSTGRES_USER=onadata
     volumes:
-      - .postgres_data/:/var/lib/postgresql
+      - .postgres_data/:/var/lib/postgresql:rw
     ports:
       - 5432
 
@@ -18,11 +32,8 @@ services:
       - 15672
       - 5671
       - 5672
+#      - 15672:15672
 
-## create base image & build app from it
-##  - web_app create Superuser
-##  - wait-for-it db **
-##  -
   onadata:
     build:
       context: .
@@ -49,4 +60,4 @@ services:
       - db
       - rabbitmq
     ports:
-      - 8000:8000
+      - 8000
