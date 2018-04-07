@@ -19,9 +19,12 @@ WORKDIR /srv/onadata
 
 #RUN virtualenv /srv/.virtualenv
 #RUN . /srv/.virtualenv/bin/activate; \
-RUN python2 -m pip install pip --upgrade
-RUN python2 -m pip install -r requirements/base.pip
-#RUN python2 -m pip install -r requirements/dev.pip
+
+RUN pip install pip --upgrade
+RUN pip install -r requirements/base.pip
+
+## dev envs
+# RUN pip install -r requirements/dev.pip
 
 ONBUILD COPY . /srv/onadata/
 
