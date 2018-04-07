@@ -1,4 +1,3 @@
-FROM ubuntu:16.04
 FROM oguya/onadata:base_image
 
 #RUN virtualenv /srv/.virtualenv
