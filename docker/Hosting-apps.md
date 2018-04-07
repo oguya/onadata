@@ -3,12 +3,13 @@
 - Clone onadata repo
 
         cd /opt
-        git clone git@github.com:oguya/onadata.git
+        git clone -b dockerize-onadata https://github.com/oguya/onadata.git
         cd onadata
 
 - Build `onadata` web app container
 
-        docker-compose up --no-deps onadata
+        docker-compose up --build onadata
+        docker-compose up
 
 - start other containers
 

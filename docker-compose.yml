@@ -16,7 +16,6 @@ services:
 
   db:
     image: kartoza/postgis:9.6-2.4
-    container_name: "postgis"
     environment:
       - POSTGRES_DB=onadata
       - POSTGRES_PASSWORD=onadata
