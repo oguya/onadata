@@ -15,18 +15,17 @@ RUN apt-get update \
 RUN mkdir -p /srv/onadata/requirements
 COPY requirements /srv/onadata/requirements/
 
+ONBUILD COPY . /srv/onadata/
 WORKDIR /srv/onadata
 
 #RUN virtualenv /srv/.virtualenv
 #RUN . /srv/.virtualenv/bin/activate; \
 
 RUN pip install pip --upgrade
-RUN pip install -r requirements/base.pip
+RUN pip install -r requirements/docker-env.pip
 
 ## dev envs
 # RUN pip install -r requirements/dev.pip
-
-ONBUILD COPY . /srv/onadata/
 
 RUN rm -rf /var/lib/apt/lists/* \
   && find . -name '*.pyc' -type f -delete
