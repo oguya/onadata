@@ -1,6 +1,5 @@
 /core
 /data
-/src
 error.log
 load_script.logs
 load_script.pid
@@ -74,3 +73,6 @@ bob
 # visual studio code
 .vscode/
 tags
+
+# postgresql docker container data
+.postgres_data/
