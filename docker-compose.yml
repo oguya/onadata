@@ -46,6 +46,7 @@ services:
       - DEFAULT_DB_PASS=onadata
       - DEV_LOGIN_USERNAME=admin
       - DEV_LOGIN_PASSWORD=onadata
+      - DJANGO_ADMIN_EMAIL=admin@localhost.local
       - MEDIA_URL=http://localhost:8000/media/
       - BROKER_URL=amqp://guest:guest@rabbitmq:5672//
       - DJANGO_SETTINGS_MODULE=onadata.settings.docker

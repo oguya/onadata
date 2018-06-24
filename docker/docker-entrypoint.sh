@@ -15,11 +15,14 @@ python manage.py collectstatic --noinput
 python manage.py shell << EOF
 from os import environ
 from django.contrib.auth.models import User
-username=environ.get('DEV_LOGIN_USERNAME')
-password=environ.get('DEV_LOGIN_PASSWORD')
-email=environ.get('DJANGO_ADMIN_EMAIL')
-User.objects.filter(email=email).delete()
-User.objects.create_superuser(username, email, password)
+if environ.get('DEV_LOGIN_USERNAME') and environ.get('DEV_LOGIN_PASSWORD'):
+    username = environ.get('DEV_LOGIN_USERNAME')
+    password = environ.get('DEV_LOGIN_PASSWORD')
+    email = environ.get('DEV_LOGIN_PASSWORD')
+    #User.objects.filter(username=username).delete()
+    #User.objects.create_superuser(username, email, password)
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(username, email, password)
 EOF
 
 python manage.py runserver 0.0.0.0:8000
