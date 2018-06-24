@@ -6,12 +6,11 @@
         git clone -b dockerize-onadata https://github.com/oguya/onadata.git
         cd onadata
 
-- Build `onadata` web app container
+- Build all containers
 
-        docker-compose up --build onadata
-        docker-compose up
+        docker-compose build
 
-- start other containers
+- start all containers; run in background(`-d`)
 
         docker-compose up -d
 

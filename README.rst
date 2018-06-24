@@ -14,7 +14,7 @@ Ona is derived from the excellent `formhub <http://github.com/SEL-Columbia/formh
 Installation
 ------------
 
-See the `installation documentation <https://api.ona.io/static/docs/install.html>`_.
+See the `installation documentation <https://api.ona.io/static/docs/install.html>`_ and `Hosting on Docker in Production environment <https://github.com/oguya/onadata/blob/dockerize-onadata/docker/Hosting-apps.md>`_.
 
 Docker
 ------
