@@ -19,7 +19,7 @@ ONBUILD COPY . /srv/onadata/
 WORKDIR /srv/onadata
 
 #RUN virtualenv /srv/.virtualenv
-#RUN . /srv/.virtualenv/bin/activate; \
+#RUN . /srv/.virtualenv/bin/activate;
 
 RUN pip install pip --upgrade
 RUN pip install -r requirements/docker-env.pip
