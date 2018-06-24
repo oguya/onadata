@@ -74,5 +74,8 @@ bob
 .vscode/
 tags
 
+# ignore git-cloned requirements
+src/
+
 # postgresql docker container data
 .postgres_data/
