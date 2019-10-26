@@ -1,12 +1,15 @@
 version: '3'
 services:
   nginx:
-    build:
-      context: .
-      dockerfile: docker/nginx/nginx_dockerfile
+#    build:
+#      context: .
+#      dockerfile: docker/nginx/nginx_dockerfile
+    image: nginx:latest
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d:ro
+      - ./onadata/static:/usr/share/nginx/html/static:ro
     command: nginx-debug -g 'daemon off;'
+    restart: unless-stopped
     depends_on:
       - onadata
     links:
@@ -16,10 +19,12 @@ services:
 
   db:
     image: kartoza/postgis:9.6-2.4
+    restart: unless-stopped
     environment:
       - POSTGRES_DB=onadata
       - POSTGRES_PASSWORD=onadata
       - POSTGRES_USER=onadata
+      - ALLOW_IP_RANGE=0.0.0.0/0
     volumes:
       - .postgres_data/:/var/lib/postgresql:rw
     ports:
@@ -27,6 +32,7 @@ services:
 
   rabbitmq:
     image: gonkulatorlabs/rabbitmq:3.6.1
+    restart: unless-stopped
     ports:
       - 15672
       - 5671
@@ -34,8 +40,10 @@ services:
 #      - 15672:15672
 
   onadata:
-    build:
-      context: .
+    image: oguya/onadata:default-app
+    restart: unless-stopped
+#    build:
+#      context: .
     command: bash -c "./docker/wait-for-it.sh db:5432 && ./docker/docker-entrypoint.sh"
     environment:
       - PYTHONUNBUFFERED=1
