@@ -78,3 +78,6 @@ tags
 
 .bash_history
 .inputrc
+
+# postgresql docker container data
+.postgres_data/

@@ -6,7 +6,7 @@ services:
     volumes:
       # One level above the code to prevent having to move or delete
       # it everytime we rebuild.
-      - ../.onadata_db:/var/lib/postgresql/data
+      - .postgres_data/:/var/lib/postgresql:rw
     environment:
       - POSTGRES_DB=onadata
       - POSTGRES_PASSWORD=onadata
