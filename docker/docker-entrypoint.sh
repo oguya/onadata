@@ -2,10 +2,6 @@
 
 sleep 20
 
-psql -h db -U postgres -c "CREATE ROLE onadata WITH SUPERUSER LOGIN PASSWORD 'onadata';"
-psql -h db -U postgres -c "CREATE DATABASE onadata OWNER onadata;"
-psql -h db -U postgres onadata -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology;"
-
 virtualenv -p `which $SELECTED_PYTHON` /srv/onadata/.virtualenv/${SELECTED_PYTHON}
 . /srv/onadata/.virtualenv/${SELECTED_PYTHON}/bin/activate
 

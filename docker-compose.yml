@@ -2,12 +2,17 @@ version: '3'
 
 services:
   db:
-    build: ./docker/postgis
-    image: postgis:9.6
+    image: kartoza/postgis:11.5-2.5
     volumes:
       # One level above the code to prevent having to move or delete
       # it everytime we rebuild.
       - ../.onadata_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=onadata
+      - POSTGRES_PASSWORD=onadata
+      - POSTGRES_USER=onadata
+      - ALLOW_IP_RANGE=0.0.0.0/0
+
   queue:
     image: rabbitmq
   web:
