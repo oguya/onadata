@@ -20,12 +20,12 @@ from onadata.settings.common import *  # noqa
 # # # now override the settings which came from staging # # # #
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'onadata',
-        'USER': 'onadata',
-        'PASSWORD': 'onadata',
-        'HOST': 'db',
-        'PORT': 5432
+        'ENGINE': os.environ.get('DEFAULT_DB_ENGINE', 'django.contrib.gis.db.backends.postgis'),
+        'NAME': os.environ.get('DEFAULT_DB_NAME', 'onadata'),
+        'USER': os.environ.get('DEFAULT_DB_USER', 'onadata'),
+        'PASSWORD': os.environ.get('DEFAULT_DB_PASS', 'onadata'),
+        'HOST': os.environ.get('DEFAULT_DB_HOST', 'db'),
+        'PORT': os.environ.get('DEFAULT_DB_PORT', 5432),
     }
 }
 
@@ -35,11 +35,11 @@ SLAVE_DATABASES = []
 # Make a unique unique key just for testing, and don't share it with anybody.
 SECRET_KEY = '~&nN9d`bxmJL2[$HhYE9qAk=+4P:cf3b'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = ['127.0.0.1']
 
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', True),
 CORS_ORIGIN_ALLOW_ALL = True
 CHECK_EXPIRED_TEMP_TOKEN = False
 
@@ -76,3 +76,5 @@ if TESTING_MODE:
     ENKETO_API_INSTANCE_IFRAME_URL = ENKETO_URL + "api_v1/instance/iframe"
 else:
     MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media/')  # noqa
+
+ODK_TOKEN_FERNET_KEY = os.environ.get('ODK_TOKEN_FERNET_KEY')
