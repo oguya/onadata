@@ -50,7 +50,7 @@ if len(sys.argv) >= 2 and (sys.argv[1] == "test" or sys.argv[1] == "test_all"):
 else:
     TESTING_MODE = False
 
-CELERY_BROKER_URL = 'amqp://guest:@queue:5672//'
+CELERY_BROKER_URL = os.environ.get('BROKER_URL', 'amqp://guest:guest@rabbitmq:5672//')
 CELERY_TASK_ALWAYS_EAGER = False
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'

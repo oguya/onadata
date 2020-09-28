@@ -1,35 +1,38 @@
 version: '3'
-
 services:
+  nginx:
+    image: nginx:latest
+    command: nginx-debug -g 'daemon off;'
+    restart: unless-stopped
+    links:
+      - onadata
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d:ro
+      - ./onadata/static:/usr/share/nginx/html/static:ro
+    ports:
+      - 9000:80
+
   db:
     image: kartoza/postgis:11.5-2.5
-    volumes:
-      # One level above the code to prevent having to move or delete
-      # it everytime we rebuild.
-      - .postgres_data/:/var/lib/postgresql:rw
+    restart: unless-stopped
     environment:
       - POSTGRES_DB=onadata
       - POSTGRES_PASSWORD=onadata
       - POSTGRES_USER=onadata
       - ALLOW_IP_RANGE=0.0.0.0/0
+      volumes:
+        - .postgres_data/:/var/lib/postgresql:rw
 
-  queue:
+  rabbitmq:
     image: rabbitmq
+    restart: unless-stopped
+
   web:
     build:
       context: .
       dockerfile: Dockerfile
     image: onadata:py3
-    volumes:
-      - .:/srv/onadata
-      - .inputrc:/home/onadata/.inputrc
-      - .bash_history:/home/onadata/.bash_history
-    ports:
-      - "3030:3030"
-      - "8000:8000"
-    depends_on:
-      - db
-      - queue
+    restart: unless-stopped
     environment:
       - SELECTED_PYTHON=python3.6
       - DJANGO_DEBUG=True
@@ -46,3 +49,13 @@ services:
       - BROKER_URL=amqp://guest:guest@rabbitmq:5672//
       - DJANGO_SETTINGS_MODULE=onadata.settings.docker
       - DEFAULT_DB_ENGINE=django.contrib.gis.db.backends.postgis
+    volumes:
+      - .:/srv/onadata
+      - .inputrc:/home/onadata/.inputrc
+      - .bash_history:/home/onadata/.bash_history
+    links:
+      - db
+      - queue
+    ports:
+      - "3030:3030"
+      - "8000:8000"
