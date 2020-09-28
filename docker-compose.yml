@@ -5,7 +5,7 @@ services:
     command: nginx-debug -g 'daemon off;'
     restart: unless-stopped
     links:
-      - onadata
+      - web
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d:ro
       - ./onadata/static:/usr/share/nginx/html/static:ro
@@ -20,8 +20,8 @@ services:
       - POSTGRES_PASSWORD=onadata
       - POSTGRES_USER=onadata
       - ALLOW_IP_RANGE=0.0.0.0/0
-      volumes:
-        - .postgres_data/:/var/lib/postgresql:rw
+    volumes:
+      - .postgres_data/:/var/lib/postgresql:rw
 
   rabbitmq:
     image: rabbitmq
@@ -55,7 +55,7 @@ services:
       - .bash_history:/home/onadata/.bash_history
     links:
       - db
-      - queue
+      - rabbitmq
     ports:
       - "3030:3030"
       - "8000:8000"
