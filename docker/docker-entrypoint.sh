@@ -21,9 +21,11 @@ if environ.get('DEV_LOGIN_USERNAME') and environ.get('DEV_LOGIN_PASSWORD'):
     password = environ.get('DEV_LOGIN_PASSWORD')
     email = environ.get('DEV_LOGIN_PASSWORD')
     #User.objects.filter(username=username).delete()
-    User.objects.create_superuser(username, email, password)
     if not User.objects.filter(username=username).exists():
+        print("user: {} doesn't exist, creating one".format(username))
         User.objects.create_superuser(username, email, password)
+    else:
+        print("user: {} already exists!".format(username))
 EOF
 
 python manage.py collectstatic --noinput
