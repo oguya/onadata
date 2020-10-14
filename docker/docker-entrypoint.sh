@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sleep 20
+# sleep 20
 
 virtualenv -p `which $SELECTED_PYTHON` /srv/onadata/.virtualenv/${SELECTED_PYTHON}
 . /srv/onadata/.virtualenv/${SELECTED_PYTHON}/bin/activate

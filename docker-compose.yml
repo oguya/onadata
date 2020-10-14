@@ -6,6 +6,8 @@ services:
     restart: unless-stopped
     links:
       - web
+    depends_on:
+      - web
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d:ro
       - ./onadata/static:/usr/share/nginx/html/static:ro
@@ -32,6 +34,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: onadata:py3
+    command: bash -c "./docker/wait-for-it.sh db:5432 && ./docker/docker-entrypoint.sh"
     restart: unless-stopped
     environment:
       - SELECTED_PYTHON=python3.6
@@ -51,9 +54,12 @@ services:
       - DEFAULT_DB_ENGINE=django.contrib.gis.db.backends.postgis
     volumes:
       - .:/srv/onadata
-      - .inputrc:/home/onadata/.inputrc
-      - .bash_history:/home/onadata/.bash_history
+      # - .inputrc:/home/onadata/.inputrc
+      # - .bash_history:/home/onadata/.bash_history
     links:
+      - db
+      - rabbitmq
+    depends_on:
       - db
       - rabbitmq
     ports:
