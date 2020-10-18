@@ -33,7 +33,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: onadata:py3
+    image: oguya/onadata:v2.4.2
     command: bash -c "./docker/wait-for-it.sh db:5432 && ./docker/docker-entrypoint.sh"
     restart: unless-stopped
     environment:
