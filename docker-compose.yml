@@ -5,9 +5,9 @@ services:
     command: nginx-debug -g 'daemon off;'
     restart: unless-stopped
     links:
-      - web
+      - onadata
     depends_on:
-      - web
+      - onadata
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d:ro
       - ./onadata/static:/usr/share/nginx/html/static:ro
@@ -29,11 +29,11 @@ services:
     image: rabbitmq
     restart: unless-stopped
 
-  web:
+  onadata:
     build:
       context: .
       dockerfile: Dockerfile
-    image: onadata:py3
+    image: oguya/onadata:v2.4.2
     command: bash -c "./docker/wait-for-it.sh db:5432 && ./docker/docker-entrypoint.sh"
     restart: unless-stopped
     environment:
@@ -63,5 +63,5 @@ services:
       - db
       - rabbitmq
     ports:
-      - "3030:3030"
-      - "8000:8000"
+      - "127.0.0.1:3030:3030"
+      - "127.0.0.1:8000:8000"
