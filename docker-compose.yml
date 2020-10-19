@@ -54,8 +54,6 @@ services:
       - DEFAULT_DB_ENGINE=django.contrib.gis.db.backends.postgis
     volumes:
       - .:/srv/onadata
-      # - .inputrc:/home/onadata/.inputrc
-      # - .bash_history:/home/onadata/.bash_history
     links:
       - db
       - rabbitmq
